@@ -8,6 +8,10 @@ theme: minima
 
 permalink: /:year/:month/:day/:slug/
 
+# 允许发布日期在未来的 post（GitHub Pages 服务器时区 UTC，常导致今天的 post 被跳过）
+future: true
+timezone: Asia/Shanghai
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -17,6 +21,8 @@ exclude:
   - scripts/
   - data/
   - prompts/
+  - examples/
+  - docs/
   - README.md
   - LICENSE
   - "*.py"
