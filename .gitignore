@@ -1,0 +1,7 @@
+data/
+_site/
+.jekyll-cache/
+.jekyll-metadata
+*.pyc
+__pycache__/
+.DS_Store

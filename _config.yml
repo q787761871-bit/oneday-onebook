@@ -1,0 +1,30 @@
+title: oneday-onebook
+tagline: 每天一本书的机理式还原
+description: >-
+  人无法感知到认知以外的事情。每天补一本书的「思想 + 方法论」，
+  扩展大脑「范畴仓库」的量级。
+
+theme: minima
+
+permalink: /:year/:month/:day/:slug/
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# 排除非内容文件
+exclude:
+  - scripts/
+  - data/
+  - prompts/
+  - README.md
+  - LICENSE
+  - "*.py"
+  - node_modules/
+  - .gitignore
+
+# minima 主题配置
+minima:
+  date_format: "%Y-%m-%d"
+  social_links:
+    github: q787761871-bit/oneday-onebook
