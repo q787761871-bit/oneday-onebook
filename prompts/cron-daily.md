@@ -29,16 +29,19 @@ python3 scripts/filter_and_classify.py
 
 ### 2. 思想密度评分（agent 自己做）
 
-读 `prompts/scoring-prompt.md` 作为评分协议。
+读 `prompts/scoring-prompt.md` 作为评分协议。**严格按 prompt 里的"强否决清单"和"原创度硬指标"执行——这是 v0.5 的关键质量门**。
 
-prefilter：从 candidates 里选出 `(rating >= 8.8 AND votes >= 50) OR (top250 AND rating >= 8.8)` 的强候选——通常 ~250 本。
+**Prefilter（v0.5 收紧版）**：
+- 只评 `tag:*` 来源的书（跳过纯 top250 — 那里小说太多）
+- 且 `rating >= 8.8` 且 `votes >= 30`
+- 通常 ~80 本（远少于 v0.4 的 250+，评分耗时压到 3-5 分钟）
 
-为了不让单次 LLM 调用过载，**按池分批评分**（classic 一批，contemporary 一批）。每批：
+为了不让单次 LLM 调用过载，**按池分批评分**：
 - 喂一个 JSON 数组（含 name/author/publisher/year/oneliner/source/pool）
 - 按评分 prompt 输出每本的 score 和 reason
-- 保留 score >= 6 的
+- **保留 score >= 7 的**（注意是 7，不是 6——v0.5 提高门槛避免教材入选）
 
-合并两批结果 → 写入 `data/scored-YYYY-MM-DD.json`。
+合并结果 → 写入 `data/scored-YYYY-MM-DD.json`。
 
 ### 3. 加权抽样
 

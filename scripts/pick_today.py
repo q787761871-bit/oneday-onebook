@@ -33,7 +33,7 @@ import random
 import sys
 
 POOL_RATIOS = {"classic": 0.70, "contemporary": 0.25, "crossdomain": 0.05}
-MIN_SCORE = 6.0
+MIN_SCORE = 7.0  # v0.5 提高门槛避免教材级入选
 
 
 def pick(scored: list[dict], seed: int | None = None) -> dict:
