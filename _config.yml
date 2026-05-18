@@ -28,6 +28,8 @@ exclude:
   - "*.py"
   - node_modules/
   - .gitignore
+  - bestblogs-feishu-full.md
+  - TODO.md
 
 # minima 主题配置
 minima:
