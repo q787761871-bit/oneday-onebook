@@ -1,0 +1,72 @@
+[
+  {
+    "subject_id": "37050145",
+    "name": "乌鸦印第安人",
+    "author": "",
+    "publisher": "",
+    "year": null,
+    "rating": 8.9,
+    "votes": 42,
+    "oneliner": null,
+    "source": "tag:人类学",
+    "pool": "classic",
+    "score": 7.2,
+    "reason": "经典民族志以具体社会组织展示亲属、仪式与政治秩序如何互相生成，有可迁移的人类学切刀。"
+  },
+  {
+    "subject_id": "37088268",
+    "name": "菌络万象",
+    "author": "［英］默林・谢尔德雷克（Merlin Sheldrake）",
+    "publisher": "北京联合出版公司",
+    "year": 2024,
+    "rating": 8.8,
+    "votes": 239,
+    "oneliner": null,
+    "source": "tag:科学",
+    "pool": "contemporary",
+    "score": 7.0,
+    "reason": "以菌丝体重写个体、共生与环境边界，虽偏科普叙事，但提供了可迁移的关系性视角。"
+  },
+  {
+    "subject_id": "36532721",
+    "name": "从数学到哲学",
+    "author": "",
+    "publisher": "",
+    "year": null,
+    "rating": 9.2,
+    "votes": 108,
+    "oneliner": "*   [![Image 5](https://img3.doubanio.com/view/subject/s/public/s34826702.jpg)](",
+    "source": "tag:科学",
+    "pool": "classic",
+    "score": 7.4,
+    "reason": "把数学基础问题推进到哲学本体论与可知性问题，可迁移为形式系统反观现实的切刀。"
+  },
+  {
+    "subject_id": "36713071",
+    "name": "伯努利谬误 : 不合逻辑的统计学与现代科学的危机",
+    "author": "",
+    "publisher": "",
+    "year": null,
+    "rating": 8.8,
+    "votes": 46,
+    "oneliner": null,
+    "source": "tag:科学",
+    "pool": "classic",
+    "score": 7.6,
+    "reason": "围绕概率解释与显著性检验危机给出现代科学误判机制的切刀，方法论迁移性强。"
+  },
+  {
+    "subject_id": "36615448",
+    "name": "计算 : 第19届文津奖获奖图书",
+    "author": "吴翰清",
+    "publisher": "电子工业出版社",
+    "year": 2023,
+    "rating": 9.2,
+    "votes": 181,
+    "oneliner": null,
+    "source": "tag:科学",
+    "pool": "contemporary",
+    "score": 7.1,
+    "reason": "以计算作为理解文明、机器与智能的底层范畴，有跨域解释力。"
+  }
+]
