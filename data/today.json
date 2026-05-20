@@ -1,17 +1,14 @@
 {
-  "subject_id": "37050145",
-  "name": "乌鸦印第安人",
-  "author": "罗伯特·H.路威",
-  "publisher": "广东人民出版社",
-  "year": 2025,
-  "rating": 8.9,
-  "votes": 42,
-  "oneliner": null,
-  "source": "tag:人类学",
+  "subject_id": "36532721",
+  "name": "从数学到哲学",
+  "author": "王浩",
+  "publisher": "广西师范大学出版社",
+  "year": 2024,
+  "rating": 9.2,
+  "votes": 109,
+  "oneliner": "循着从柏拉图到哥德尔的数学-哲学家传统，阐发实质事实主义。",
+  "source": "tag:科学",
   "pool": "classic",
-  "score": 7.2,
-  "reason": "经典民族志以具体社会组织展示亲属、仪式与政治秩序如何互相生成，有可迁移的人类学切刀。",
-  "original_title": "The Crow Indians",
-  "slug": "wuya-yindianren",
-  "subtitle": "一个社会怎样在被现代世界拆散之前，把秩序藏进亲属、玩笑、战争与仪式里？"
+  "score": 8,
+  "reason": "王浩以数学逻辑通向哲学问题，跨域方法论扎实且原创。"
 }
