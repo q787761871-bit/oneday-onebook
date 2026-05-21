@@ -1,14 +1,14 @@
 {
-  "subject_id": "36532721",
-  "name": "从数学到哲学",
-  "author": "王浩",
-  "publisher": "广西师范大学出版社",
+  "subject_id": "37088268",
+  "name": "菌络万象",
+  "author": "［英］默林・谢尔德雷克（Merlin Sheldrake）",
+  "publisher": "北京联合出版公司",
   "year": 2024,
-  "rating": 9.2,
-  "votes": 109,
-  "oneliner": "循着从柏拉图到哥德尔的数学-哲学家传统，阐发实质事实主义。",
+  "rating": 8.8,
+  "votes": 241,
+  "oneliner": null,
   "source": "tag:科学",
-  "pool": "classic",
-  "score": 8,
-  "reason": "王浩以数学逻辑通向哲学问题，跨域方法论扎实且原创。"
+  "pool": "contemporary",
+  "score": 7,
+  "reason": "谢尔德雷克以菌根网络重写个体/共生边界，有迁移性概念。"
 }
