@@ -1,12 +1,14 @@
 {
-  "name": "批评的剖析",
-  "score": 9,
-  "reason": "弗莱原创'原型批评'系统，文论奠基级著作",
-  "pool": "classic",
-  "subject_id": "30143238",
-  "rating": 9.0,
+  "subject_id": "36812235",
+  "name": "罗马政治观念中的自由",
+  "author": "",
+  "publisher": "",
   "year": null,
-  "oneliner": null,
-  "source": "tag:文学批评",
-  "author": "诺斯洛普·弗莱"
+  "rating": 9.0,
+  "votes": 52,
+  "oneliner": "*   [![Image 6](https://img1.doubanio.com/view/subject/s/public/s34911558.jpg)](",
+  "source": "tag:政治哲学",
+  "pool": "classic",
+  "score": 7,
+  "reason": "Wirszubski 经典学术著作，深描罗马自由观念的具体政治语境，扎实学术非综述"
 }
