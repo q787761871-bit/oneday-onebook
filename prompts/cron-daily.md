@@ -25,7 +25,9 @@ cd /Users/jc/Documents/oneday-onebook
 python3 scripts/filter_and_classify.py
 ```
 
-读取 `data/pool-*.json`（最新一次月采集结果）→ 输出 `data/candidates-YYYY-MM-DD.json`，已自动 grep `_推过的书.md` 去重。
+读取 pool 的规则已经写在脚本里：优先使用当天 `data/pool-YYYY-MM-DD.json`；如果当天文件不存在，自动使用 `data/` 下最新的 `pool-*.json` 月采集快照。不要手动 `ls` 或把某个 `.json` 当目录读取。
+
+输出 `data/candidates-YYYY-MM-DD.json`，已自动 grep `_推过的书.md` 去重。
 
 ### 2. 思想密度评分（agent 自己做）
 

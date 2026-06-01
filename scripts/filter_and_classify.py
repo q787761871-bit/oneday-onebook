@@ -2,7 +2,7 @@
 """
 filter_and_classify.py — 把 pool 过滤、去重、分池
 
-输入：data/pool-YYYY-MM-DD.json + 已推清单
+输入：data/pool-YYYY-MM-DD.json（当天不存在时使用最新 data/pool-*.json）+ 已推清单
 输出：data/candidates-YYYY-MM-DD.json
   按 3 个池：classic（经典）/ contemporary（严肃当代）/ crossdomain（跨域，留空）
 
@@ -64,11 +64,25 @@ def classify(book: dict) -> str:
     return "classic"
 
 
+def resolve_pool_path(today: str) -> Path:
+    """Prefer today's pool file; fall back to the newest monthly pool snapshot."""
+    data_dir = ROOT / "data"
+    today_pool = data_dir / f"pool-{today}.json"
+    if today_pool.exists():
+        return today_pool
+
+    pools = sorted(data_dir.glob("pool-*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
+    if not pools:
+        sys.exit(f"No pool files found in {data_dir}")
+
+    fallback = pools[0]
+    print(f"Pool file not found for {today}; using latest pool snapshot: {fallback}", file=sys.stderr)
+    return fallback
+
+
 def main() -> None:
     today = datetime.now().strftime("%Y-%m-%d")
-    pool_path = ROOT / "data" / f"pool-{today}.json"
-    if not pool_path.exists():
-        sys.exit(f"Pool file not found: {pool_path}")
+    pool_path = resolve_pool_path(today)
     pool = json.loads(pool_path.read_text())
 
     history_names = {normalize_name(n) for n in load_history()}
