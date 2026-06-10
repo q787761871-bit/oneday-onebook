@@ -576,33 +576,47 @@ def publish_public_post(project_dir: Path, public_path: Path, run_date: str, tit
     if os.environ.get("ONEBOOK_SKIP_PUBLISH") == "1":
         log("ONEBOOK_SKIP_PUBLISH=1, not committing/pushing public repo")
         return None
+    last_error: str | None = None
+    for attempt in range(1, 4):
+        if attempt > 1:
+            log(f"publish attempt {attempt}/3 after: {last_error}")
+            time.sleep(10)
+        last_error = publish_public_post_once(project_dir, public_path, run_date, title, run_dir)
+        if last_error is None:
+            return None
+    return warn(last_error)
+
+
+def publish_public_post_once(project_dir: Path, public_path: Path, run_date: str, title: str, run_dir: Path) -> str | None:
     git_index = run_dir / "git-index"
     git_index.unlink(missing_ok=True)
     git_env = {**os.environ, "GIT_INDEX_FILE": str(git_index)}
     read_tree = run(["git", "read-tree", "HEAD"], cwd=project_dir, timeout=120, env=git_env)
     if read_tree.returncode != 0:
-        return warn(f"git read-tree failed: {read_tree.stderr.strip() or read_tree.stdout.strip()}")
+        return f"git read-tree failed: {read_tree.stderr.strip() or read_tree.stdout.strip()}"
 
-    data_files = [
-        project_dir / "data" / f"candidates-{run_date}.json",
-        project_dir / "data" / f"scored-{run_date}.json",
-        project_dir / "data" / "today.json",
-    ]
-    add = run(["git", "add", "--", str(public_path), *[str(p) for p in data_files if p.exists()]], cwd=project_dir, timeout=120, env=git_env)
+    # 整个 _posts 目录一起 add，前一天发布失败遗留的未提交文章会被自动补上。
+    # data/ 已 gitignore 但 today.json 仍被跟踪——pathspec 落在 ignored 目录下时
+    # git add 即使成功暂存也会 exit 1，必须用 -f 才能拿到干净的退出码。
+    add_paths = [str(project_dir / "_posts")]
+    today_json = project_dir / "data" / "today.json"
+    if today_json.exists():
+        add_paths.append(str(today_json))
+    add = run(["git", "add", "-f", "--", *add_paths], cwd=project_dir, timeout=120, env=git_env)
     if add.returncode != 0:
-        return warn(f"git add failed: {add.stderr.strip()}")
+        return f"git add failed: {add.stderr.strip()}"
     diff = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=str(project_dir), env=git_env)
     if diff.returncode == 0:
         log("no public repo changes to commit")
         return None
     if diff.returncode != 1:
-        return warn(f"git diff --cached failed with exit code {diff.returncode}")
+        return f"git diff --cached failed with exit code {diff.returncode}"
     commit = run(["git", "commit", "-m", f"daily: {title} ({run_date})"], cwd=project_dir, timeout=120, env=git_env)
     if commit.returncode != 0:
-        return warn(f"git commit failed: {commit.stderr.strip() or commit.stdout.strip()}")
+        return f"git commit failed: {commit.stderr.strip() or commit.stdout.strip()}"
     push = run(["git", "push"], cwd=project_dir, timeout=180, env=git_env)
     if push.returncode != 0:
-        return warn(f"git push failed: {push.stderr.strip() or push.stdout.strip()}")
+        return f"git push failed: {push.stderr.strip() or push.stdout.strip()}"
     return None
 
 
