@@ -588,6 +588,15 @@ def publish_public_post(project_dir: Path, public_path: Path, run_date: str, tit
 
 
 def publish_public_post_once(project_dir: Path, public_path: Path, run_date: str, title: str, run_dir: Path) -> str | None:
+    # 2026-06-08 一个被杀掉的 git 进程留下 .git/index.lock 残留了 4 天，
+    # 挡住所有不带 GIT_INDEX_FILE 的 git 写操作。超过 1 小时的锁必然 stale，清掉。
+    stale_lock = project_dir / ".git" / "index.lock"
+    try:
+        if stale_lock.exists() and time.time() - stale_lock.stat().st_mtime > 3600:
+            log("removing stale .git/index.lock (age > 1h)")
+            stale_lock.unlink()
+    except OSError as exc:
+        log(f"WARN: could not clear stale index.lock: {exc}")
     git_index = run_dir / "git-index"
     git_index.unlink(missing_ok=True)
     git_env = {**os.environ, "GIT_INDEX_FILE": str(git_index)}

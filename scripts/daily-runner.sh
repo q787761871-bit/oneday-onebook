@@ -158,8 +158,30 @@ sys.exit(0 if re.search(pattern, text) else 1)
 PY
 }
 
+verify_published() {
+  # publish 失败时 final.txt 仍带 URL（2026-06-09/10/11 连续三天把 404 链接照常投递）。
+  # 投递前校验今天的 post 已 commit 且已 push；失败时保持 state=generated 直接退出，
+  # 修好后补跑（openclaw cron run）只重投不重生成。
+  local url fname head_ref remote_ref
+  url="$(state_value finalUrl)"
+  [[ -n "$url" ]] || return 0
+  fname="$(printf '%s' "$url" | /usr/bin/sed -E 's#.*/([0-9]{4})/([0-9]{2})/([0-9]{2})/([^/]+)/?$#\1-\2-\3-\4.md#')"
+  [[ "$fname" == *.md ]] || return 0
+  if ! /usr/bin/git -C "$PROJECT_DIR" cat-file -e "HEAD:_posts/$fname" 2>/dev/null; then
+    printf 'ERROR: public post not committed: _posts/%s — publish failed earlier, fix repo then rerun\n' "$fname" >&2
+    exit 1
+  fi
+  head_ref="$(/usr/bin/git -C "$PROJECT_DIR" rev-parse HEAD 2>/dev/null)"
+  remote_ref="$(/usr/bin/git -C "$PROJECT_DIR" rev-parse origin/main 2>/dev/null)"
+  if [[ -n "$remote_ref" && "$head_ref" != "$remote_ref" ]]; then
+    printf 'ERROR: public repo not pushed (HEAD != origin/main) — push then rerun\n' >&2
+    exit 1
+  fi
+}
+
 print_final() {
   validate_final
+  verify_published
   /bin/cat "$FINAL_FILE"
 }
 
