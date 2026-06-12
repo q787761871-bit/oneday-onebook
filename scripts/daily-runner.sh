@@ -230,7 +230,21 @@ if [[ "$(state_value delivered)" == "true" ]]; then
 fi
 
 if ! /bin/mkdir "$LOCK_DIR" 2>/dev/null; then
-  fail "another onebook daily runner is active for $RUN_DATE: $LOCK_DIR"
+  # 2026-06-12：cron agent 的 exec 在 1s yield 后会原样重跑命令，第二个实例撞锁。
+  # 立刻失败会让整个 cron turn 报错、播报丢失，所以改为等首个实例跑完后直接复用其成果。
+  printf 'another runner holds the lock for %s; waiting for it to finish\n' "$RUN_DATE" >&2
+  for _ in $(seq 1 120); do
+    [[ -d "$LOCK_DIR" ]] || break
+    /bin/sleep 10
+  done
+  if [[ -d "$LOCK_DIR" ]]; then
+    fail "another onebook daily runner is still active for $RUN_DATE after 20min: $LOCK_DIR"
+  fi
+  if [[ "$(state_value status)" == "generated" ]]; then
+    print_final
+    exit 0
+  fi
+  fail "concurrent runner for $RUN_DATE finished without generating; see $RUN_LOG"
 fi
 trap '/bin/rmdir "$LOCK_DIR" 2>/dev/null || true' EXIT
 

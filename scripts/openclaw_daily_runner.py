@@ -626,6 +626,11 @@ def publish_public_post_once(project_dir: Path, public_path: Path, run_date: str
     push = run(["git", "push"], cwd=project_dir, timeout=180, env=git_env)
     if push.returncode != 0:
         return f"git push failed: {push.stderr.strip() or push.stdout.strip()}"
+    # commit 走的是 GIT_INDEX_FILE 侧索引，主 .git/index 仍停在上一个 HEAD，
+    # git status 会显示假的「已暂存删除」。push 成功后把主索引刷回 HEAD。
+    refresh = run(["git", "reset", "--quiet"], cwd=project_dir, timeout=120)
+    if refresh.returncode != 0:
+        log(f"WARN: main index refresh failed: {refresh.stderr.strip()}")
     return None
 
 
