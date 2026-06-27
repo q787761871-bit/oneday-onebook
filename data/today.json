@@ -1,14 +1,14 @@
 {
-  "subject_id": "36827870",
-  "name": "突破 : 我的科学人生",
-  "author": "",
-  "publisher": "",
-  "year": null,
+  "subject_id": "36615448",
+  "name": "计算 : 第19届文津奖获奖图书",
+  "author": "吴翰清",
+  "publisher": "电子工业出版社",
+  "year": 2023,
   "rating": 9.3,
-  "votes": 532,
-  "oneliner": "*   [![Image 2](https://img3.doubanio.com/view/subject/s/public/s34864587.jpg)](",
+  "votes": 184,
+  "oneliner": "",
   "source": "tag:科学",
-  "pool": "classic",
+  "pool": "contemporary",
   "score": 7,
   "reason": "高评分且有一定评价基数"
 }
