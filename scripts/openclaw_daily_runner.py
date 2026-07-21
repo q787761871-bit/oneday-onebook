@@ -604,10 +604,10 @@ def publish_public_post_once(project_dir: Path, public_path: Path, run_date: str
     if read_tree.returncode != 0:
         return f"git read-tree failed: {read_tree.stderr.strip() or read_tree.stdout.strip()}"
 
-    # 整个 _posts 目录一起 add，前一天发布失败遗留的未提交文章会被自动补上。
-    # data/ 已 gitignore 但 today.json 仍被跟踪——pathspec 落在 ignored 目录下时
-    # git add 即使成功暂存也会 exit 1，必须用 -f 才能拿到干净的退出码。
-    add_paths = [str(project_dir / "_posts")]
+    # 只暂存当天生成的文章。整个 _posts 目录可能包含 iCloud 的 dataless 占位文件，
+    # 扫描它们会让 git add 报 Resource deadlock avoided，连带阻塞当天发布。
+    # 历史失败文章由人工核验后显式补发，不在每日任务里隐式批量带上。
+    add_paths = [str(public_path)]
     today_json = project_dir / "data" / "today.json"
     if today_json.exists():
         add_paths.append(str(today_json))

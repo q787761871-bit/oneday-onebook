@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PROJECT_DIR="/Users/jc/Documents/oneday-onebook"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LEGACY_RUNBOOK="$PROJECT_DIR/prompts/cron-daily.md"
 STATE_ROOT="${ONEBOOK_STATE_DIR:-$HOME/.oneday-onebook}"
 RUN_DATE="${ONEBOOK_DATE:-$(TZ=Asia/Shanghai date +%F)}"
