@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Pin a Node version supported by the current OpenClaw CLI. Volta otherwise
+# selects the repository's older project-pinned Node in cron's login shell.
+export PATH="/Users/jc/.volta/tools/image/node/22.22.3/bin:$PATH"
+
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LEGACY_RUNBOOK="$PROJECT_DIR/prompts/cron-daily.md"
 STATE_ROOT="${ONEBOOK_STATE_DIR:-$HOME/.oneday-onebook}"
@@ -15,7 +19,7 @@ RUN_LOG="$RUN_DIR/runner.log"
 MAX_CHARS="${ONEBOOK_FINAL_MAX_CHARS:-500}"
 PYTHON_BIN="${ONEBOOK_PYTHON_BIN:-/usr/bin/python3}"
 OPENCLAW_BIN="${ONEBOOK_OPENCLAW_BIN:-$(command -v openclaw || true)}"
-OPENCLAW_MODEL_CHAIN="${ONEBOOK_MODEL_CHAIN:-newapi/gpt-5.5 xiaomi/mimo-v2.5-pro}"
+OPENCLAW_MODEL_CHAIN="${ONEBOOK_MODEL_CHAIN:-newapi/gpt-5.6-sol-1m deepseek/deepseek-v4-pro}"
 RUNNER_PY="$PROJECT_DIR/scripts/openclaw_daily_runner.py"
 MODE="${1:-run}"
 
